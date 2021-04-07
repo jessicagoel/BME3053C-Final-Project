@@ -14,7 +14,7 @@ Lam = zeros(size(I));
 for i = 1:r
     for j = 1:c
         if I(i,j,1) > 240 && I(i,j,2) > 240 && I(i,j,3) > 240
-            I(i,j,:) = I(i,j,:)
+            I(i,j,:) = I(i,j,:);
         else
        %use the RBG values to find LMS vals
        LMS(i, j, :) = ([0.7328 0.4296 -0.1624; -0.7036 1.6975 0.0061; 0.0030 0.0136 0.9834])*double(reshape(RGB(i, j, :), [3 1])) ;
