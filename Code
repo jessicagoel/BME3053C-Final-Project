@@ -1,0 +1,28 @@
+file = input('What is the name of your file? \n','s');
+I = imread(file);
+%read RBG values from image
+
+R = I(:,:,1);
+G = I(:,:,2);
+B = I(:,:,3);
+
+[r c z] = size(I);
+% run for loop through each pixel
+RGB = cat(3, R,G,B);
+LMS = zeros(size(I));
+Lam = zeros(size(I));
+for i = 1:r
+    for j = 1:c
+        if I(i,j,1) > 240 && I(i,j,2) > 240 && I(i,j,3) > 240
+            I(i,j,:) = I(i,j,:)
+        else
+       %use the RBG values to find LMS vals
+       LMS(i, j, :) = ([0.7328 0.4296 -0.1624; -0.7036 1.6975 0.0061; 0.0030 0.0136 0.9834])*double(reshape(RGB(i, j, :), [3 1])) ;
+       % find Lam values values
+       Lam(i,j,:) = ([0.6 0.4 0.0; 0.24 1.05 -0.7; 1.2 -1.6 0.4])*double(reshape(LMS(i,j,:),[3 1]));
+       % find final image values
+       I(i,j,:) = ([1.2256 -0.2217 0.4826; 0.9018 -0.3645 -0.2670; -0.0936 -0.8072 0.0224])*double(reshape(Lam(i,j,:),[3 1]));
+        end
+    end
+end
+imshow(I)
